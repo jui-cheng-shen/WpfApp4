@@ -32,4 +32,5 @@
         </StatusBar>
     </DockPanel>
 
+    </Grid>
 </Window>
