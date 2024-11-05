@@ -22,7 +22,8 @@
         <ToolBarTray Height="40" DockPanel.Dock="Top">
             <ToolBar Height="38" Background="#FFF9D5C0" Margin="0,0,9,0">
                 <!-- 筆刷色彩選擇器 -->
-                <!--Content 屬性用於設置標籤顯示的文本。-->
+                <!--Content 屬性用於設置標籤顯示的文本。--> 
+                <!--verticalContentAlignment="Center" 用於設置標籤的垂直對齊方式-->
                 <Label Content="筆刷色彩" Width="65" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14"/>
                 <xctk:ColorPicker x:Name="strokeColorPicker" Width="130" DisplayColorAndName="True"/>
                 <!-- 填滿色彩選擇器 -->
