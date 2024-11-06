@@ -1,0 +1,29 @@
+﻿重點
+1.	視窗屬性：
+•	Title：視窗標題。
+•	Height 和 Width：視窗的高度和寬度。
+2.	佈局：
+•	使用 DockPanel 作為主要佈局容器，並設置 LastChildFill 屬性為 False，使最後一個子元素不會自動填滿剩餘空間。
+3.	菜單：
+•	使用 Menu 和 MenuItem 控件來創建應用程式的菜單。
+•	每個 MenuItem 都有標題和樣式屬性。
+4.	工具欄：
+•	使用 ToolBarTray 和 ToolBar 控件來創建工具欄。
+•	包含筆刷色彩選擇器、填滿色彩選擇器、筆刷粗細滑桿和形狀選擇按鈕。
+5.	畫布：
+•	使用 Canvas 控件作為繪圖區域，並設置相關的事件處理程序，如 MouseEnter、MouseLeftButtonDown、MouseMove 和 MouseLeftButtonUp。
+6.	狀態欄：
+•	使用 StatusBar 和 StatusBarItem 控件來顯示應用程式的狀態信息。
+學習目標
+1.	理解 XAML 基本語法：
+•	學習如何使用 XAML 定義 WPF 視窗和控件。
+•	理解 XAML 中的屬性設置和事件綁定。
+2.	掌握佈局控件的使用：
+•	學習如何使用 DockPanel 來佈局子元素。
+•	理解 Menu、ToolBarTray、ToolBar 和 Canvas 等控件的使用方法。
+3.	事件處理：
+•	學習如何在 XAML 中綁定事件處理程序，如滑桿值改變事件 (ValueChanged) 和按鈕點擊事件 (Click)。
+4.	數據綁定：
+•	理解如何使用數據綁定來動態更新控件的屬性值，如滑桿的值綁定到標籤的內容。
+5.	第三方控件的使用：
+•	學習如何在 XAML 中引用和使用第三方控件庫，如 Xceed.Wpf.Toolkit 中的 ColorPicker 控件。

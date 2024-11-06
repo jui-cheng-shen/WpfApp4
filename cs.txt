@@ -1,0 +1,21 @@
+﻿1. 基本結構
+這段程式碼定義了一個 MainWindow 類別，繼承自 Window 類別，並包含了多個事件處理方法來處理滑鼠事件。
+2. 變數定義
+•	Point start 和 Point dest：分別表示繪圖的起始點和終點座標。
+•	Color strokeColor 和 int strokeThickness：分別表示筆刷的顏色和粗細。
+•	string shapeType：表示當前選擇的形狀類型（目前未使用）。
+3. 事件處理方法
+•	myCanvas_MouseEnter：當滑鼠進入畫布時，將游標設置為筆刷形狀。
+•	myCanvas_mouseLeftButtonDown：當滑鼠左鍵按下時，記錄起始點座標並更新狀態欄。
+•	myCanvas_MouseMove：當滑鼠在畫布上移動時，更新終點座標並更新狀態欄。
+•	myCanvas_MouseLeftButtonUp：當滑鼠左鍵釋放時，繪製一條線條。
+4. 方法
+•	DisplayStatus(Point Start, Point Dest)：更新狀態欄顯示的座標信息。
+5. 初始化
+•	MainWindow 建構子：初始化主窗口，並設置顏色選擇器的初始顏色。
+6. 繪圖邏輯
+•	當滑鼠左鍵釋放時，根據起始點和終點座標繪製一條線條，並將其添加到畫布的子控制項集合中。
+重要概念
+•	事件處理：透過事件處理方法來響應滑鼠事件。
+•	座標系統：使用 GetPosition 方法來獲取滑鼠相對於畫布的位置。
+•	繪圖：使用 Line 類別和 SolidColorBrush 類別來繪製線條。

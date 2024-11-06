@@ -45,7 +45,7 @@ namespace _2024_WpfApp4
             pointLabel.Content = $"({Convert.ToInt32(Start.X)}, {Convert.ToInt32(Start.Y)}) - ({Convert.ToInt32(Dest.X)}, {Convert.ToInt32(Dest.Y)})";
         }
 
-        // 初始化主窗口
+       
 
         public MainWindow()
         {
@@ -63,21 +63,16 @@ namespace _2024_WpfApp4
         // 當滑鼠左鍵釋放時，繪製線條
         private void myCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            // 創建一個新的 SolidColorBrush，並設置其顏色為當前選擇的筆刷顏色
             Brush brush = new SolidColorBrush(strokeColor); //SolidColorBrush 類表示一個固定的顏色筆刷
-            
-            // 創建一個新的 Line 對象，並設置其屬性
+  
             Line line = new Line //Line 類是 WPF 中的一個圖形元素，用來繪製直線。它繼承自 Shape 類，並提供了多種屬性來設置直線的外觀和位置。
             {
                 Stroke = brush,
                 StrokeThickness = strokeThickness,
-                // 設置線條的起始點 X 座標
+                
                 X1 = start.X,
-                // 設置線條的起始點 Y 座標
                 Y1 = start.Y,
-                // 設置線條的終點 X 座標
                 X2 = dest.X,
-                // 設置線條的終點 Y 座標
                 Y2 = dest.Y
             };
             myCanvas.Children.Add(line); //children 屬性用來訪問控制項的子控制項集合 ; Add() 方法用來將指定的子控制項添加到控制項的子控制項集合中
