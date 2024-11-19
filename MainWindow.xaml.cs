@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -7,77 +6,241 @@ using System.Windows.Shapes;
 
 namespace _2024_WpfApp4
 {
-
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
-        // 起始點和終點的座標
         Point start = new Point { X = 0, Y = 0 };
         Point dest = new Point { X = 0, Y = 0 };
-
-        // 筆刷顏色和粗細
         Color strokeColor = Colors.Red;
+        Color fillColor = Colors.Aqua;
         int strokeThickness = 1;
-
-        // 當前選擇的形狀類型
-        string shapeType = "";
-
-        // 當滑鼠進入畫布時，將游標設置為筆刷
-        //object sender 參數表示觸發事件的物件。這個參數可以用來識別是哪個控制項觸發了事件。
-        private void myCanvas_MouseEnter(object sender, MouseEventArgs e) //MouseEventArgs 是一個包含滑鼠事件資訊的類別 ,例如滑鼠的位置、按下的按鈕等
-        {
-            myCanvas.Cursor = Cursors.Pen; //Cursor屬性用來設置控制項的游標樣式 ; Cursors.Pen 是一個預定義的游標樣式，表示筆刷形狀的游標。
-        }
-
-        // 當滑鼠左鍵按下時，記錄起始點座標並更新狀態欄
-
-        private void myCanvas_mouseLeftButtonDown(object sender , MouseButtonEventArgs e) //•	e 參數包含與滑鼠事件相關的數據
-        {
-            myCanvas.Cursor = Cursors.Cross; //Cursor屬性用來設置控制項的游標樣式 ; Cursors.Cross 是一個預定義的游標樣式，表示十字形的游標。
-            start = e.GetPosition(myCanvas); //GetPosition() 方法用來獲取滑鼠相對於指定元素的位置
-            DisplayStatus(start, dest); //更新狀態欄顯示的座標信息
-            //displayStatus() 方法用來更新狀態欄顯示的座標信息
-        }
-
-        // 更新狀態欄顯示的座標信息
-        private void DisplayStatus(Point Start, Point Dest) //更新狀態欄顯示的座標信息
-        {
-            //Convert.ToInt32 方法用來將不同類型的數據轉換為 32 位整數 (int) 類型
-            pointLabel.Content = $"({Convert.ToInt32(Start.X)}, {Convert.ToInt32(Start.Y)}) - ({Convert.ToInt32(Dest.X)}, {Convert.ToInt32(Dest.Y)})";
-        }
-
-       
+        string shapeType = "line";
+        string actionType = "draw";
 
         public MainWindow()
         {
-            InitializeComponent();//初始化窗口
-            strokeColorPicker.SelectedColor = strokeColor; //SelectedColor 屬性用來設置或獲取顏色選擇器的選中顏色
-        }
-      
-        // 當滑鼠在畫布上移動時，更新終點座標並更新狀態欄
-        private void myCanvas_MouseMove(object sender, MouseEventArgs e) // mouseMove 事件在滑鼠在控制項上移動時發生
-        {
-            dest = e.GetPosition(myCanvas); //GetPosition() 方法用來獲取滑鼠相對於指定元素的位置
-            DisplayStatus(start, dest); // displayStatus() 方法用來更新狀態欄顯示的座標信息
+            InitializeComponent();
+            strokeColorPicker.SelectedColor = strokeColor;
+            fillColorPicker.SelectedColor = fillColor;
         }
 
-        // 當滑鼠左鍵釋放時，繪製線條
-        private void myCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void MyCanvas_MouseEnter(object sender, MouseEventArgs e)
         {
-            Brush brush = new SolidColorBrush(strokeColor); //SolidColorBrush 類表示一個固定的顏色筆刷
-  
-            Line line = new Line //Line 類是 WPF 中的一個圖形元素，用來繪製直線。它繼承自 Shape 類，並提供了多種屬性來設置直線的外觀和位置。
-            {
-                Stroke = brush,
-                StrokeThickness = strokeThickness,
-                
-                X1 = start.X,
-                Y1 = start.Y,
-                X2 = dest.X,
-                Y2 = dest.Y
-            };
-            myCanvas.Children.Add(line); //children 屬性用來訪問控制項的子控制項集合 ; Add() 方法用來將指定的子控制項添加到控制項的子控制項集合中
-            //myCanvas.Children.Add() 方法用來將指定的子控制項添加到控制項的子控制項集合中
+            if (actionType == "erase") myCanvas.Cursor = Cursors.Hand;
+            else myCanvas.Cursor = Cursors.Pen;
         }
-        
+
+        private void MyCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            myCanvas.Cursor = Cursors.Cross;
+            start = e.GetPosition(myCanvas);
+
+            if (actionType == "draw")
+            {
+                switch (shapeType)
+                {
+                    case "line":
+                        Line line = new Line
+                        {
+                            X1 = start.X,
+                            Y1 = start.Y,
+                            X2 = dest.X,
+                            Y2 = dest.Y,
+                            StrokeThickness = 1,
+                            Stroke = Brushes.Gray
+                        };
+                        myCanvas.Children.Add(line);
+                        break;
+
+                    case "rectangle":
+                        Rectangle rect = new Rectangle
+                        {
+                            Stroke = Brushes.Gray,
+                            Fill = Brushes.LightGray
+                        };
+                        myCanvas.Children.Add(rect);
+                        rect.SetValue(Canvas.LeftProperty, start.X);
+                        rect.SetValue(Canvas.TopProperty, start.Y);
+                        break;
+
+                    case "ellipse":
+                        Ellipse ellipse = new Ellipse
+                        {
+                            Stroke = Brushes.Gray,
+                            Fill = Brushes.LightGray
+                        };
+                        myCanvas.Children.Add(ellipse);
+                        ellipse.SetValue(Canvas.LeftProperty, start.X);
+                        ellipse.SetValue(Canvas.TopProperty, start.Y);
+                        break;
+
+                    case "polyline":
+                        Polyline polyline = new Polyline
+                        {
+                            Stroke = Brushes.Gray,
+                            Fill = Brushes.LightGray
+                        };
+                        myCanvas.Children.Add(polyline);
+                        break;
+                }
+            }
+
+            DisplayStatus();
+        }
+
+        private void MyCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            dest = e.GetPosition(myCanvas);
+
+            switch (actionType)
+            {
+                case "draw":
+                    if (e.LeftButton == MouseButtonState.Pressed)
+                    {
+                        Point origin;
+                        origin.X = Math.Min(start.X, dest.X);
+                        origin.Y = Math.Min(start.Y, dest.Y);
+                        double width = Math.Abs(start.X - dest.X);
+                        double height = Math.Abs(start.Y - dest.Y);
+
+                        switch (shapeType)
+                        {
+                            case "line":
+                                var line = myCanvas.Children.OfType<Line>().LastOrDefault();
+                                line.X2 = dest.X;
+                                line.Y2 = dest.Y;
+                                break;
+
+                            case "rectangle":
+                                var rect = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
+                                rect.Width = width;
+                                rect.Height = height;
+                                rect.SetValue(Canvas.LeftProperty, origin.X);
+                                rect.SetValue(Canvas.TopProperty, origin.Y);
+                                break;
+
+                            case "ellipse":
+                                var ellipse = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
+                                ellipse.Width = width;
+                                ellipse.Height = height;
+                                ellipse.SetValue(Canvas.LeftProperty, origin.X);
+                                ellipse.SetValue(Canvas.TopProperty, origin.Y);
+                                break;
+
+                            case "polyline":
+                                var polyline = myCanvas.Children.OfType<Polyline>().LastOrDefault();
+                                polyline.Points.Add(dest);
+                                break;
+                        }
+                    }
+                    break;
+
+                case "erase":
+                    var shape = e.OriginalSource as Shape;
+                    myCanvas.Children.Remove(shape);
+                    if (myCanvas.Children.Count == 0)
+                        myCanvas.Cursor = Cursors.Arrow;
+                    break;
+            }
+
+            DisplayStatus();
+        }
+
+        private void MyCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Brush strokeBrush = new SolidColorBrush(strokeColor);
+            Brush fillBrush = new SolidColorBrush(fillColor);
+
+            switch (actionType)
+            {
+                case "draw":
+                    switch (shapeType)
+                    {
+                        case "line":
+                            var line = myCanvas.Children.OfType<Line>().LastOrDefault();
+                            line.Stroke = strokeBrush;
+                            line.StrokeThickness = strokeThickness;
+                            break;
+
+                        case "rectangle":
+                            var rect = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
+                            rect.Stroke = strokeBrush;
+                            rect.Fill = fillBrush;
+                            rect.StrokeThickness = strokeThickness;
+                            break;
+
+                        case "ellipse":
+                            var ellipse = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
+                            ellipse.Stroke = strokeBrush;
+                            ellipse.Fill = fillBrush;
+                            ellipse.StrokeThickness = strokeThickness;
+                            break;
+
+                        case "polyline":
+                            var polyline = myCanvas.Children.OfType<Polyline>().LastOrDefault();
+                            polyline.Stroke = strokeBrush;
+                            polyline.Fill = fillBrush;
+                            polyline.StrokeThickness = strokeThickness;
+                            break;
+                    }
+                    break;
+
+                case "erase":
+                    break;
+            }
+        }
+
+        private void DisplayStatus()
+        {
+            pointLabel.Content = $"({Convert.ToInt32(start.X)}, {Convert.ToInt32(start.Y)}) -  ({Convert.ToInt32(dest.X)}, {Convert.ToInt32(dest.Y)})";
+            shapeLabel.Content = shapeType;
+            int lineCount = myCanvas.Children.OfType<Line>().Count();
+            int rectCount = myCanvas.Children.OfType<Rectangle>().Count();
+            int ellipseCount = myCanvas.Children.OfType<Ellipse>().Count();
+            int polylineCount = myCanvas.Children.OfType<Polyline>().Count();
+
+            statusLabel.Content = $"工作模式：{actionType}, Line:{lineCount}, Rectangle:{rectCount}, Ellipse:{ellipseCount}, Polyline:{polylineCount}";
+        }
+
+        private void StrokeThicknessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            strokeThickness = Convert.ToInt32(strokeThicknessSlider.Value);
+        }
+
+        private void ShapeRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            var targetRadioButton = sender as RadioButton;
+            shapeType = targetRadioButton.Tag.ToString();
+            actionType = "draw";
+            DisplayStatus();
+        }
+
+        private void StrokeColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            strokeColor = strokeColorPicker.SelectedColor.Value;
+        }
+
+        private void FillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            fillColor = fillColorPicker.SelectedColor.Value;
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            myCanvas.Children.Clear();
+            DisplayStatus();
+        }
+
+        private void EraseButton_Click(object sender, RoutedEventArgs e)
+        {
+            actionType = "erase";
+            if (myCanvas.Children.Count > 0)
+            {
+                myCanvas.Cursor = Cursors.Hand;
+            }
+            DisplayStatus();
+        }
     }
 }
